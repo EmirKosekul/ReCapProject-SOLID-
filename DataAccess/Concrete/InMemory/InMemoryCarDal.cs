@@ -19,7 +19,7 @@ namespace DataAccess.Concrete.InMemory
             new Car{Id=2,BrandId=20,ColorId=2,ModelYear=1999,DailyPrice=200,Description="Car2"}
             };
         }
-        public void Add(Car car)
+        public void Updated(Car car)
         {
             _cars.Add(car);
         }

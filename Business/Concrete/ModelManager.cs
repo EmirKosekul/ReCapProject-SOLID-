@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -14,14 +15,49 @@ namespace Business.Concrete
         {
             _modeldal = modelDal;
         }
-        public List<Model> GetAll()
+
+        public Result Add(Model model)
         {
-            return _modeldal.GetAll();
+            _modeldal.Updated(model);
+            return new SuccessResult("Model has been added!");
         }
 
-        public Model GetById(int modelId)
+        public Result Delete(Model model)
         {
-            return _modeldal.Get(m=>m.ModelId==modelId);
+            _modeldal.Delete(model);
+            return new SuccessResult("Model has been deleted!");
+        }
+
+        public IDataResult<List<Model>> GetAll()
+        {
+            return new SuccessDataResult<List<Model>>(_modeldal.GetAll());
+
+        }
+
+        public IDataResult<Model> GetById(int modelId)
+        {
+            return new SuccessDataResult<Model>(_modeldal.Get(m=>m.ModelId==modelId));
+        }
+
+        public Result Update(Model model)
+        {
+            _modeldal.Update(model);
+            return new SuccessResult("Model has been updated!");
+        }
+
+        IResult IModelService.Add(Model model)
+        {
+            throw new NotImplementedException();
+        }
+
+        IResult IModelService.Delete(Model model)
+        {
+            throw new NotImplementedException();
+        }
+
+        IResult IModelService.Update(Model model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

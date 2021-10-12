@@ -1,4 +1,5 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
@@ -11,7 +12,29 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Test();
+            IUserService userService = new UserManager(new EFUserDal());
+            ICustomerService customerService = new CustomerManager(new EFCustomerDal());
+            User user1 = new User();
+            Customer customer1 = new Customer();
+            foreach (var user in userService.GetAll().Data)
+            {
+                Console.WriteLine(user.FirstName + " " + user.LastName);
+            }
+            user1.Email = "asdasdllq@outlook.com";
+            user1.FirstName = "Arzu";
+            user1.LastName = "uıguıkguık";
+            user1.Password = "5677";
+            user1.UserId = 4;
+            userService.Add(user1);
+            customer1.CompanyName = "ArzuCo";
+            customer1.CustomerId = 4;
+            customerService.Add(customer1);
+            foreach (var user in userService.GetAll().Data)
+            {
+                Console.WriteLine(user.FirstName + " " + user.LastName);
+            }
+
+            //Test();
             //ModelTest();
         }
 
@@ -26,7 +49,7 @@ namespace ConsoleUI
             model2.ModelId = 3;
             model2.ModelName = "CcL";
             modelDal.Delete(model2);
-            foreach (var model in modelManager.GetAll())
+            foreach (var model in modelManager.GetAll().Data)
             {
                 Console.WriteLine(model.ModelName + "  ....  " + model.ModelId);
             }
@@ -58,10 +81,10 @@ namespace ConsoleUI
             a.Update(car1);
             //a.Add(car2);
             //a.Add(car1);
-            foreach (var car in carManager.GetCarDetails())
-            {
-                Console.WriteLine(car.CarName+" "+car.ColorName+ " " +car.BrandName+" " +car.DailyPrice);
-            }
+            //foreach (var car in carManager.GetCarDetails())
+            //{
+            //    Console.WriteLine(car.CarName+" "+car.ColorName+ " " +car.BrandName+" " +car.DailyPrice);
+            //}
         }
     }
 }
